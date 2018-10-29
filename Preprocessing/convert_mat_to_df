@@ -1,0 +1,37 @@
+import scipy.io
+import numpy as np
+import pandas as pd
+import time
+start = time.time()
+mat = scipy.io.loadmat('~datamatrix.mat')
+print('mat key data list')
+print(mat.keys())
+datasetlength = mat['[NAME]']['[NAME]'][0][0][0].shape[0]
+data = []
+TrakName = '[NAME]'
+labellist = ['[NAME]']
+
+datalabel1 = ['[NAME]']
+datalabel2= ['[NAME]']
+datalabel3 = ['[NAME]']
+
+
+for i in range(datasetlength):
+    print('convert')
+    for j in range(datalabel1.__len__()):
+        if j == 0:
+            data = mat['[NAME]'][datalabel1[j]][0][0][0][i]
+        else:
+            print('')
+            data = np.hstack((data,mat['[NAME]'][datalabel1[j]][0][0][0][i]))
+    for j in range(datalabel2.__len__()):
+        data = np.hstack((data,mat['[NAME]'][datalabel2[j]][0][0][0][i]))
+    for j in range(datalabel3.__len__()):
+        data = np.hstack((data,mat['[NAME]'][datalabel3[j]][0][0][0][i]))
+    print(data)
+    data = pd.DataFrame(data,columns=datalabel1+datalabel2+datalabel3)
+    data.to_csv('~Raw_Data/{0}DataFrame_Lap{1}.csv'.format(TrakName,i),index=False)
+
+    print(data.shape)
+elapsed_time = time.time() - start
+print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
